@@ -57,27 +57,15 @@ class BugController < ApplicationController
     rescue => e
       error(e)
     end
-    def show
-      application_token = request.headers["application-token"]
-      bug_number = params[:number]
-      @bug = Bug.where("application_token = ? AND number = ?", application_token, bug_number)[0]
-      if @bug
-        render action: '/show/success', status: :ok
-      else
-        render action: '/show/error', status: :unprocessable_entity
-      end
-    end
-
-    private
-
-    def bug_params
-      params.require(:bug).permit(:status, :priority, :comment)
-    end
-
-    def state_params
-      params.require(:state).permit(:device, :os, :storage, :memory)
-    end
   end
 
-end
+  private
 
+  def bug_params
+    params.require(:bug).permit(:status, :priority, :comment)
+  end
+
+  def state_params
+    params.require(:state).permit(:device, :os, :storage, :memory)
+  end
+end
